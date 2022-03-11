@@ -42,9 +42,9 @@
     /* Comment the color theme you don't want to use */
 
     /* Dark Theme Colors */
-    --window-colour:               #1f2122;
-    --secondary-colour:            #141616;
-    --inverted-colour:             #FAFAFC;
+    --window-colour:               #1E2021; /* #FAFAFC; */
+    --secondary-colour:            #191B1C; /* #EAEAEC; */
+    --inverted-colour:             #FAFAFC; /* #1E2021; */
 
     /* Light Theme Colors
     --window-colour:               #FAFAFC;
@@ -74,14 +74,14 @@
      +---+---+---+---+---+---+---*/
     
     /* global border radius */
-    --uc-border-radius: 0;
+    --uc-border-radius: 2px;
      
     /* dynamic url bar width settings */
-    --uc-urlbar-width: clamp(250px, 50vw, 600px);
+    --uc-urlbar-width: clamp(200px, 50vw, 700px);
 
     /* dynamic tab width settings */
     --uc-active-tab-width:   clamp( 50px, 18vw, 220px);
-    --uc-inactive-tab-width: clamp( 50px, 15vw, 200px);
+    --uc-inactive-tab-width: clamp( 20px, 15vw, 100px);
 
     /* if active always shows the tab close button */
     --show-tab-close-button: none; /* DEFAULT: -moz-inline-box; */ 
@@ -99,10 +99,28 @@
      +---+---+---+---+---+---+---*/
 
      /* showing only the back button */
-     #back-button{ display: -moz-inline-box !important; }
-     #forward-button{ display: none !important; }
-     #stop-button{ display: none !important; }
+     /* #back-button{ display: -moz-inline-box !important; } */
+     /* #forward-button{ display: none !important; } */
+     /* #stop-button{ display: none !important; } */
      #reload-button{ display: none !important; }
+
+     #back-button[disabled="true"] {
+         display: none !important;
+     }
+
+     #forward-button[disabled="true"] {
+         display: none !important;
+     }
+
+     #forward-button {
+        list-style-image: url(image/right-arrow.svg) !important;
+        margin-left: 2px !important;
+    }
+
+    #back-button {
+        list-style-image: url(image/left-arrow.svg) !important;
+        margin-left: -4px !important;
+    }
 
      /* bookmark icon */
      #star-button{ display: none !important; }
@@ -112,6 +130,12 @@
 
      /* Show Hamburger Menu */
      #PanelUI-button { display: -moz-inline-box !important;}
+
+     #PanelUI-menu-button:not(:hover) { filter: grayscale(1) !important; }
+     #PanelUI-menu-button {
+        list-style-image: url(image/firefox.png) !important;
+        padding-right: -8px;
+    }
 
      #reader-mode-button{ display: none !important; }
 
@@ -127,6 +151,7 @@
      #pageActionButton { display: none !important; }
      #page-action-buttons { display: none !important; }
 
+     #urlbar-go-button { display: none !important; }
 
 
 
@@ -245,15 +270,17 @@ window,
     > .tab-stack
     > .tab-background { background: var(--uc-hover-colour) !important; }
 
+/* #tabbrowser-tabs:not([noshadowfortests]) .tabbrowser-tab:is([visuallyselected=true], [multiselected]) > .tab-stack > .tab-background:-moz-lwtheme { background: var(--uc-hover-colour) !important; } */
 
 /* tab close button options */
 .tabbrowser-tab:not([pinned]) .tab-close-button { display: var(--show-tab-close-button) !important; }
 .tabbrowser-tab:not([pinned]):hover .tab-close-button { display: var(--show-tab-close-button-hover) !important }
 
+.tabbrowser-tab:not(:is([visuallyselected=true], [multiselected])):not([pinned]):not(:hover) { filter: grayscale(1) !important; }
 
 /* adaptive tab width */
-.tabbrowser-tab[selected][fadein]:not([pinned]) { max-width: var(--uc-active-tab-width) !important; }
-.tabbrowser-tab[fadein]:not([selected]):not([pinned]) { max-width: var(--uc-inactive-tab-width) !important; }
+.tabbrowser-tab:is([visuallyselected=true], [multiselected], [selected], :hover)[fadein]:not([pinned]) { max-width: var(--uc-active-tab-width) !important; }
+.tabbrowser-tab[fadein]:not(:is([visuallyselected=true], [multiselected], [selected], :hover)):not([pinned]) { max-width: var(--uc-inactive-tab-width) !important; }
 
 
 /* container tabs indicator */
@@ -380,11 +407,22 @@ window,
 
 
 #urlbar,
-#urlbar * { box-shadow: none !important; }
+#urlbar * {
+
+    outline: none !important;
+    box-shadow: none !important;
+
+}
 
 
 #urlbar-background { border: var(--uc-hover-colour) !important; }
 
+#urlbar[breakout][breakout-extend][open] {
+    background-image: url(image/noise.png) !important;
+    background-color: #1e1e1ebf !important;
+    -webkit-backdrop-filter: blur(32px) !important;
+    backdrop-filter: blur(32px) !important;
+}
 
 #urlbar[focused="true"]
     > #urlbar-background,
@@ -392,8 +430,8 @@ window,
     > #urlbar-background { background: transparent !important; }
 
 
-#urlbar[open]
-    > #urlbar-background { background: var(--uc-theme-colour) !important; }
+/* #urlbar[open]
+    > #urlbar-background { background: var(--uc-theme-colour) !important; } */
 
 
 .urlbarView-row:hover
